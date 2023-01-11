@@ -121,7 +121,7 @@ index b30a667663ef..fbf10e62bcde 100644
  		set_blitting_type(vc, info);
 @@ -1331,6 +1385,7 @@ static void fbcon_cursor(struct vc_data *vc, int mode)
  {
- 	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
+ 	struct fb_info *info = fbcon_registered_fb[con2fb_map[vc->vc_num]];
  	struct fbcon_ops *ops = info->fbcon_par;
 +	int y;
   	int c = scr_readw((u16 *) vc->vc_pos);
@@ -296,7 +296,7 @@ index b30a667663ef..fbf10e62bcde 100644
  			goto redraw_up;
  		switch (p->scrollmode) {
 @@ -2084,6 +2269,14 @@ static int fbcon_switch(struct vc_data *vc)
- 	info = registered_fb[con2fb_map[vc->vc_num]];
+ 	info = fbcon_registered_fb[con2fb_map[vc->vc_num]];
  	ops = info->fbcon_par;
  
 +	if (softback_top) {
@@ -386,7 +386,7 @@ index b30a667663ef..fbf10e62bcde 100644
 +
 +static void fbcon_scrolldelta(struct vc_data *vc, int lines)
 +{
-+	struct fb_info *info = registered_fb[con2fb_map[fg_console]];
++	struct fb_info *info = fbcon_registered_fb[con2fb_map[fg_console]];
 +	struct fbcon_ops *ops = info->fbcon_par;
 +	struct fbcon_display *disp = &fb_display[fg_console];
 +	int offset, limit, scrollback_old;
